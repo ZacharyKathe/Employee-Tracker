@@ -34,6 +34,9 @@ const connection = mysql.createConnection({
               case 'View all employees by department':
                 viewAllByDepartment();
                   break;
+              case 'View by Manager':
+                viewAllByManager();
+                  break;
               default:
                   console.log("invalid action")
                   break;
@@ -72,6 +75,25 @@ const viewAllByDepartment = () => {
 
       })
           
+
+}
+
+const viewAllByManager = () => {
+    inquirer
+      .prompt([{
+        type: "input",
+        message: "Type a manager number to search employees under that manager",
+        name: "manager"
+      }])
+      .then((answers) => {
+        const query = 'SELECT *FROM employee JOIN empRole ON employee.empRole_id = empRole.id JOIN department ON department.id = empRole.department_id WHERE ?'
+        connection.query(query, {manager_id: answers.manager}, (err,res)=>{
+            if (err) throw err;
+            console.table(res);
+            startEmployeeTracker();
+        })
+      })
+      
 
 }
 

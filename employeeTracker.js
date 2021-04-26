@@ -37,6 +37,9 @@ const connection = mysql.createConnection({
               case 'View by Manager':
                 viewAllByManager();
                   break;
+              case "Add Employee":
+                addEmployee();
+                  break;
               default:
                   console.log("invalid action")
                   break;
@@ -97,6 +100,58 @@ const viewAllByManager = () => {
 
 }
 
+const addEmployee = () =>{
+    inquirer
+      .prompt([
+          {
+        type: "input",
+        message: "Type new employee first name",
+        name: "firstName"
+      },
+      {
+        type: "input",
+        message: "Type new employee last name",
+        name: "lastName"
+      },
+      {
+        type: "list",
+        message: "Pick a role for them",
+        choices: ["python developer", "javaScript developer", "on-bording", "html/CSS dev","QA test writer"],
+        name: "role_idChoice"
+      },
+      {
+        type: "input",
+        message: "Type a managers id that over looks their work",
+        name: "manager_id"
+      }
+      ])
+    .then((answers) =>{
+        if (answers.role_idChoice === "python developer"){
+            answers.role_idChoice = '1';
+        }
+        else if (answers.role_idChoice === "javaScript developer"){
+            answers.role_idChoice = '2';
+        }
+        else if (answers.role_idChoice === "on-bording"){
+            answers.role_idChoice = '3';
+        }
+        else if (answers.role_idChoice === "html/CSS dev"){
+            answers.role_idChoice = '4';
+        }
+        else answers.role_idChoice = '5';
+        
+        console.table(answers);
+        
+        const {firstName, lastName, role_idChoice, manager_id} = answers;
+        const query = `INSERT INTO employee SET ?`
+        connection.query(query,({first_name: firstName, last_name: lastName, emprole_id: role_idChoice, manager_id: manager_id}),(err,res) => {
+            if (err) throw err;
+            console.table(res);
+            startEmployeeTracker();
+        })
+    })
+};
+
 
     
-startEmployeeTracker()
+startEmployeeTracker();

@@ -45,6 +45,8 @@ INSERT INTO empRole (title, salery, department_id)
 VALUES ("on-bording","45000.00", "1");
 INSERT INTO empRole (title, salery, department_id)
 VALUES ("html/CSS dev","80000.00", "3");
+INSERT INTO empRole (title, salery, department_id)
+VALUES ("QA test writer","90000.00", "2");
 
 -- Creating employees
 INSERT INTO employee (first_name, last_name, empRole_id, manager_id)

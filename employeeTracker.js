@@ -40,6 +40,9 @@ const connection = mysql.createConnection({
               case "Add Employee":
                 addEmployee();
                   break;
+              case "Remove Employee":
+                deleteEmployee();
+                  break;
               default:
                   console.log("invalid action")
                   break;
@@ -151,6 +154,25 @@ const addEmployee = () =>{
             startEmployeeTracker();
         })
     })
+};
+
+const deleteEmployee = () =>{
+  inquirer
+    .prompt([
+      {
+        type: "input",
+        message: "type an employee number to delete employee record",
+        name: "delete"
+      }
+    ])
+    .then((answers) =>{
+      const query = 'DELETE FROM employee WHERE ?'
+      connection.query(query, {id: answers.delete}, (err,res) => {
+      if (err) throw err;
+      console.log(res);
+      console.table(viewAllEmployed());
+    })
+  })
 };
 
 

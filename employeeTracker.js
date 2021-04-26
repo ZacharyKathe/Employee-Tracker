@@ -70,7 +70,7 @@ const viewAllByDepartment = () => {
       ])
       .then((answers) => {
         const query = 'SELECT *FROM employee JOIN empRole ON employee.empRole_id = empRole.id JOIN department ON department.id = empRole.department_id WHERE ?'
-        connection.query(query, {empRole_id: answers.department}, (err,res)=>{
+        connection.query(query, {department_id: answers.department}, (err,res)=>{
             if (err) throw err;
             console.table(res);
             startEmployeeTracker();
@@ -146,7 +146,8 @@ const addEmployee = () =>{
         const query = `INSERT INTO employee SET ?`
         connection.query(query,({first_name: firstName, last_name: lastName, emprole_id: role_idChoice, manager_id: manager_id}),(err,res) => {
             if (err) throw err;
-            console.table(res);
+            console.log(res);
+            console.table(viewAllEmployed());
             startEmployeeTracker();
         })
     })

@@ -61,6 +61,3 @@ VALUES ("May", "Benish", "2", "1");
 
 -- Inner join employee employee role
 
-SELECT *
-    FROM employee JOIN empRole ON employee.empRole_id = empRole.id
-    JOIN department ON department.id = empRole.department_id;

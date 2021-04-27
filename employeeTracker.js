@@ -54,13 +54,14 @@ const connection = mysql.createConnection({
 
 const viewAllEmployed = () => {
     const query = 
-      'SELECT * FROM employee INNER JOIN empRole ON employee.empRole_id = empRole.id'
+      'SELECT * FROM employee INNER JOIN emprole ON employee.empRole_id = emprole.id;'
     connection.query(query, (err, res) => {
         if (err) throw err;
         console.table(res);
         startEmployeeTracker();
     });
 }
+
 
 const viewAllByDepartment = () => {
     inquirer
@@ -72,7 +73,7 @@ const viewAllByDepartment = () => {
           }
       ])
       .then((answers) => {
-        const query = 'SELECT *FROM employee JOIN empRole ON employee.empRole_id = empRole.id JOIN department ON department.id = empRole.department_id WHERE ?'
+        const query = 'SELECT *FROM employee INNER JOIN empRole ON employee.empRole_id = emprole.id INNER JOIN department ON department.id = emprole.department_id WHERE ?'
         connection.query(query, {department_id: answers.department}, (err,res)=>{
             if (err) throw err;
             console.table(res);
@@ -92,7 +93,7 @@ const viewAllByManager = () => {
         name: "manager"
       }])
       .then((answers) => {
-        const query = 'SELECT *FROM employee JOIN empRole ON employee.empRole_id = empRole.id JOIN department ON department.id = empRole.department_id WHERE ?'
+        const query = 'SELECT *FROM employee INNER JOIN emprole ON employee.empRole_id = emprole.id INNER JOIN department ON department.id = emprole.department_id WHERE ?'
         connection.query(query, {manager_id: answers.manager}, (err,res)=>{
             if (err) throw err;
             console.table(res);
@@ -169,7 +170,6 @@ const deleteEmployee = () =>{
       const query = 'DELETE FROM employee WHERE ?'
       connection.query(query, {id: answers.delete}, (err,res) => {
       if (err) throw err;
-      console.log(res);
       console.table(viewAllEmployed());
     })
   })
